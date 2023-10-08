@@ -42,9 +42,6 @@ class ChatHistoryHandler(plugin: Plugin) :
 
         val component = event.packet.getChatComponent() ?: return
 
-        // If the message is a broadcast of previous messages.
-        // We don't want to add this to the history.
-        if (component is TextComponent && component.content() == "no-index") return
         val history = getHistory(event.player)
 
         if (history.isBlocking()) {
@@ -129,13 +126,12 @@ class ChatHistory {
 
     private fun clearMessage() = "\n"
 
-    fun resendMessages(player: Player, clear: Boolean = true) {
+    fun resendMessages(player: Player) {
         // Start with "no-index" to prevent the server from adding the message to the history
-        var msg = Component.text("no-index")
-        if (clear) msg = msg.append(Component.text(clearMessage()))
+        var msg = Component.text(clearMessage())
         messages.forEach { msg = msg.append(Component.text("\n")).append(it.message) }
-        messages.clear()
         player.sendMessage(msg)
+        clear()
     }
 
     fun composeDarkMessage(message: Component, clear: Boolean = true): Component {
