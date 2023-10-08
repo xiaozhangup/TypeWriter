@@ -41,7 +41,7 @@ class ChatHistoryHandler(plugin: Plugin) :
 
         val component = event.packet.getChatComponent() ?: return
 
-        if (component.contains(Component.text("no-index"))) return
+        if (component.contains(Component.text("no-index\n"))) return
 
         val history = getHistory(event.player)
 
@@ -125,11 +125,9 @@ class ChatHistory {
         messages.clear()
     }
 
-    private fun clearMessage() = "\n"
-
     fun resendMessages(player: Player) {
         // Start with "no-index" to prevent the server from adding the message to the history
-        var msg = Component.text("no-index" + clearMessage())
+        var msg = Component.text("no-index\n")
         // If no message history, don't send anything
         if (messages.isEmpty()) return
 
@@ -139,7 +137,7 @@ class ChatHistory {
     }
 
     fun composeDarkMessage(message: Component): Component {
-        var msg = Component.text("no-index" + clearMessage())
+        var msg = Component.text("no-index\n")
         messages.forEach {
             msg = msg.append(it.darkenMessage)
         }
@@ -147,7 +145,7 @@ class ChatHistory {
     }
 
     fun composeEmptyMessage(message: Component): Component {
-        var msg = Component.text("no-index" + clearMessage())
+        var msg = Component.text("no-index\n")
         return msg.append(message)
     }
 }
