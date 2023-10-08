@@ -32,7 +32,6 @@ class InteractAdyeshachEventEntry(
     override val id: String = "",
     override val name: String = "",
     override val triggers: List<String> = emptyList(),
-    @MaterialProperties(BLOCK)
     @Help("The npc that was interacted with.")
     val npcId: String = "null",
 ) : EventEntry
@@ -40,8 +39,6 @@ class InteractAdyeshachEventEntry(
 @EntryListener(InteractAdyeshachEventEntry::class)
 fun onInteractAdyeshach(event: AdyeshachEntityInteractEvent, query: Query<InteractAdyeshachEventEntry>) {
     query findWhere { entry ->
-        val manager = Adyeshach.api().getPublicEntityManager(ManagerType.PERSISTENT)
-
-        manager.getEntities().any { entityInstance -> entityInstance.id == entry.npcId }
+        event.entity.id == entry.npcId
     } startDialogueWithOrNextDialogue event.player
 }

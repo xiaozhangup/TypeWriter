@@ -46,9 +46,9 @@ class ChatHistoryHandler(plugin: Plugin) :
         // We don't want to add this to the history.
         if (component is TextComponent && component.content() == "no-index") return
         val history = getHistory(event.player)
-        history.addMessage(component)
 
         if (history.isBlocking()) {
+            history.addMessage(component)
             event.isCancelled = true
         }
     }
@@ -127,13 +127,14 @@ class ChatHistory {
         messages.clear()
     }
 
-    private fun clearMessage() = "\n".repeat(100 - messages.size)
+    private fun clearMessage() = "\n"
 
     fun resendMessages(player: Player, clear: Boolean = true) {
         // Start with "no-index" to prevent the server from adding the message to the history
         var msg = Component.text("no-index")
         if (clear) msg = msg.append(Component.text(clearMessage()))
         messages.forEach { msg = msg.append(Component.text("\n")).append(it.message) }
+        messages.clear()
         player.sendMessage(msg)
     }
 
