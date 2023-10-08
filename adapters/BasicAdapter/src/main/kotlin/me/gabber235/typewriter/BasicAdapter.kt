@@ -1,6 +1,7 @@
 package me.gabber235.typewriter
 
 import App
+import lirand.api.extensions.server.server
 import me.gabber235.typewriter.adapters.Adapter
 import me.gabber235.typewriter.adapters.TypewriteAdapter
 
@@ -14,6 +15,9 @@ import me.gabber235.typewriter.adapters.TypewriteAdapter
  */
 object BasicAdapter : TypewriteAdapter() {
     override fun initialize() {
-
+        if (!server.pluginManager.isPluginEnabled("Adyeshach")) {
+            logger.warning("Adyeshach plugin not found!")
+            return
+        }
     }
 }
