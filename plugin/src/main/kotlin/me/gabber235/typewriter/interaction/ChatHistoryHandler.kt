@@ -11,7 +11,6 @@ import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
 import lirand.api.extensions.server.server
 import me.gabber235.typewriter.utils.plainText
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.entity.Player
@@ -129,25 +128,24 @@ class ChatHistory {
     fun resendMessages(player: Player) {
         // Start with "no-index" to prevent the server from adding the message to the history
         var msg = Component.text(clearMessage())
+        // If no message history, don't send anything
+        if (messages.isEmpty()) return
+
         messages.forEach { msg = msg.append(Component.text("\n")).append(it.message) }
         player.sendMessage(msg)
         clear()
     }
 
-    fun composeDarkMessage(message: Component, clear: Boolean = true): Component {
-        // Start with "no-index" to prevent the server from adding the message to the history
-        var msg = Component.text("no-index")
-        if (clear) msg = msg.append(Component.text(clearMessage()))
+    fun composeDarkMessage(message: Component): Component {
+        var msg = Component.text(clearMessage())
         messages.forEach {
             msg = msg.append(it.darkenMessage)
         }
         return msg.append(message)
     }
 
-    fun composeEmptyMessage(message: Component, clear: Boolean = true): Component {
-        // Start with "no-index" to prevent the server from adding the message to the history
-        var msg = Component.text("no-index")
-        if (clear) msg = msg.append(Component.text(clearMessage()))
+    fun composeEmptyMessage(message: Component): Component {
+        var msg = Component.text(clearMessage())
         return msg.append(message)
     }
 }
