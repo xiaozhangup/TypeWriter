@@ -136,7 +136,7 @@ class ChatHistory {
         if (messages.isEmpty()) return
         messages.forEach { msg = msg.append(Component.text("\n")).append(it.message) }
         player.sendMessage(msg.replaceText {
-            it.matchLiteral("<message>")
+            it.matchLiteral("no-index")
                 .replacement(null)
                 .build()
         })
