@@ -41,6 +41,8 @@ class ChatHistoryHandler(plugin: Plugin) :
 
         val component = event.packet.getChatComponent() ?: return
 
+        if (component.contains(Component.text("no-index"))) return
+
         val history = getHistory(event.player)
 
         if (history.isBlocking()) {
@@ -127,7 +129,7 @@ class ChatHistory {
 
     fun resendMessages(player: Player) {
         // Start with "no-index" to prevent the server from adding the message to the history
-        var msg = Component.text(clearMessage())
+        var msg = Component.text("no-index" + clearMessage())
         // If no message history, don't send anything
         if (messages.isEmpty()) return
 
@@ -137,7 +139,7 @@ class ChatHistory {
     }
 
     fun composeDarkMessage(message: Component): Component {
-        var msg = Component.text(clearMessage())
+        var msg = Component.text("no-index" + clearMessage())
         messages.forEach {
             msg = msg.append(it.darkenMessage)
         }
@@ -145,7 +147,7 @@ class ChatHistory {
     }
 
     fun composeEmptyMessage(message: Component): Component {
-        var msg = Component.text(clearMessage())
+        var msg = Component.text("no-index" + clearMessage())
         return msg.append(message)
     }
 }
