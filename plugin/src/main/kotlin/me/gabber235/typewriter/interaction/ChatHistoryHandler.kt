@@ -11,6 +11,7 @@ import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
 import lirand.api.extensions.server.server
 import me.gabber235.typewriter.utils.plainText
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.entity.Player
@@ -41,13 +42,14 @@ class ChatHistoryHandler(plugin: Plugin) :
 
         val component = event.packet.getChatComponent() ?: return
 
-        if (component.contains(Component.text("no-index\n"))) return
-
+        // If the message is a broadcast of previous messages.
+        // We don't want to add this to the history.
+        if (component is TextComponent && component.content() == "no-index") return
         val history = getHistory(event.player)
 
         if (history.isBlocking()) {
-            history.addMessage(component)
             event.isCancelled = true
+            history.addMessage(component)
         }
     }
 
@@ -125,27 +127,36 @@ class ChatHistory {
         messages.clear()
     }
 
-    fun resendMessages(player: Player) {
-        // Start with "no-index" to prevent the server from adding the message to the history
-        var msg = Component.text("no-index\n")
-        // If no message history, don't send anything
-        if (messages.isEmpty()) return
+    private fun clearMessage() = "\n".repeat(100)
 
+    fun resendMessages(player: Player, clear: Boolean = true) {
+        // Start with "no-index" to prevent the server from adding the message to the history
+        var msg = Component.text("no-index")
+        if (clear) msg = msg.append(Component.text("\n"))
+        if (messages.isEmpty()) return
         messages.forEach { msg = msg.append(Component.text("\n")).append(it.message) }
-        player.sendMessage(msg)
+        player.sendMessage(msg.replaceText {
+            it.matchLiteral("<message>")
+                .replacement(null)
+                .build()
+        })
         clear()
     }
 
-    fun composeDarkMessage(message: Component): Component {
-        var msg = Component.text("no-index\n")
+    fun composeDarkMessage(message: Component, clear: Boolean = true): Component {
+        // Start with "no-index" to prevent the server from adding the message to the history
+        var msg = Component.text("no-index")
+        if (clear) msg = msg.append(Component.text(clearMessage()))
         messages.forEach {
             msg = msg.append(it.darkenMessage)
         }
         return msg.append(message)
     }
 
-    fun composeEmptyMessage(message: Component): Component {
-        var msg = Component.text("no-index\n")
+    fun composeEmptyMessage(message: Component, clear: Boolean = true): Component {
+        // Start with "no-index" to prevent the server from adding the message to the history
+        var msg = Component.text("no-index")
+        if (clear) msg = msg.append(Component.text(clearMessage()))
         return msg.append(message)
     }
 }
