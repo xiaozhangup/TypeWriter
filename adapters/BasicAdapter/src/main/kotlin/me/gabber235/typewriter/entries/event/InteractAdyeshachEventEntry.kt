@@ -3,7 +3,6 @@ package me.gabber235.typewriter.entries.event
 import ink.ptms.adyeshach.core.Adyeshach
 import ink.ptms.adyeshach.core.entity.manager.ManagerType
 import ink.ptms.adyeshach.core.event.AdyeshachEntityInteractEvent
-import me.gabber235.typewriter.BasicAdapter.baffle
 import me.gabber235.typewriter.adapters.Colors
 import me.gabber235.typewriter.adapters.Entry
 import me.gabber235.typewriter.adapters.modifiers.Help
@@ -41,11 +40,6 @@ class InteractAdyeshachEventEntry(
 @EntryListener(InteractAdyeshachEventEntry::class)
 fun onInteractAdyeshach(event: AdyeshachEntityInteractEvent, query: Query<InteractAdyeshachEventEntry>) {
     query findWhere { entry ->
-        baffle.hasNext(event.player.name) && event.entity.id == entry.npcId
+        event.isMainHand && (event.entity.id == entry.npcId)
     } startDialogueWithOrNextDialogue event.player
-}
-
-@EntryListener(InteractAdyeshachEventEntry::class)
-fun onPlayerQuit(event: PlayerQuitEvent, query: Query<InteractAdyeshachEventEntry>) {
-    baffle.reset(event.player.name)
 }

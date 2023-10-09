@@ -69,17 +69,16 @@ open class DialogueMessenger<DE : DialogueEntry>(val player: Player, val entry: 
 
     open fun init() {
         player.blackScreen()
+        val start = player.location.clone()
         object : BukkitRunnable() {
             override fun run() {
-                println("Running...")
-                val start = player.location.clone()
                 if (state != MessengerState.RUNNING) cancel()
                 if (!player.isOnline) cancel()
 
                 if (
-                    start.world != player.world ||
-                    start.distance(player.location) > 2 ||
-                    abs(start.yaw - player.location.yaw) > 45
+                    (start.world != player.world) ||
+                    (start.distance(player.location) > 2) ||
+                    (abs(start.yaw - player.location.yaw) > 45)
                     ) {
                     end()
                     cancel()
