@@ -79,7 +79,7 @@ open class DialogueMessenger<DE : DialogueEntry>(val player: Player, val entry: 
                 if (
                     start.world != player.world ||
                     start.distance(player.location) > 2 ||
-                    abs(start.yaw - player.yaw) > 45
+                    abs(start.yaw - player.location.yaw) > 45
                     ) {
                     end()
                     cancel()
