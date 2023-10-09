@@ -16,10 +16,7 @@ import me.gabber235.typewriter.extensions.placeholderapi.parsePlaceholders
 import me.gabber235.typewriter.interaction.acceptActionBarMessage
 import me.gabber235.typewriter.interaction.chatHistory
 import me.gabber235.typewriter.snippets.snippet
-import me.gabber235.typewriter.utils.Icons
-import me.gabber235.typewriter.utils.asMiniWithResolvers
-import me.gabber235.typewriter.utils.asPartialFormattedMini
-import me.gabber235.typewriter.utils.isFloodgate
+import me.gabber235.typewriter.utils.*
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import org.bukkit.entity.Player
 

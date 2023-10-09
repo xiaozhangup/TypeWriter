@@ -11,6 +11,8 @@ import me.gabber235.typewriter.entry.Modifier
 import me.gabber235.typewriter.entry.entries.DialogueEntry
 import me.gabber235.typewriter.interaction.chatHistory
 import me.gabber235.typewriter.plugin
+import me.gabber235.typewriter.utils.blackScreen
+import me.gabber235.typewriter.utils.resetScreen
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
@@ -64,6 +66,7 @@ open class DialogueMessenger<DE : DialogueEntry>(val player: Player, val entry: 
         protected set
 
     open fun init() {
+        player.blackScreen()
     }
 
     open fun tick(cycle: Int) {}
@@ -81,6 +84,7 @@ open class DialogueMessenger<DE : DialogueEntry>(val player: Player, val entry: 
             delay(1.ticks)
             player.chatHistory.resendMessages(player)
         }
+        player.resetScreen()
     }
 
     open val triggers: List<String>

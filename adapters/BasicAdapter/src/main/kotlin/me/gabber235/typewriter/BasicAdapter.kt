@@ -4,6 +4,8 @@ import App
 import lirand.api.extensions.server.server
 import me.gabber235.typewriter.adapters.Adapter
 import me.gabber235.typewriter.adapters.TypewriteAdapter
+import me.gabber235.typewriter.utils.Baffle
+import java.util.concurrent.TimeUnit
 
 @Adapter("Basic", "For all the most basic entries", App.VERSION)
 /**
@@ -14,6 +16,8 @@ import me.gabber235.typewriter.adapters.TypewriteAdapter
  * first.
  */
 object BasicAdapter : TypewriteAdapter() {
+    val baffle = Baffle.of(100, TimeUnit.MILLISECONDS)
+
     override fun initialize() {
         if (!server.pluginManager.isPluginEnabled("Adyeshach")) {
             logger.warning("Adyeshach plugin not found!")
