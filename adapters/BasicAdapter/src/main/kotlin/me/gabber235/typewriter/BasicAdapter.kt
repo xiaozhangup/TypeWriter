@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
  * first.
  */
 object BasicAdapter : TypewriteAdapter() {
-    val baffle = Baffle.of(100, TimeUnit.MILLISECONDS)
+    val baffle = Baffle(100)
 
     override fun initialize() {
         if (!server.pluginManager.isPluginEnabled("Adyeshach")) {
