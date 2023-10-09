@@ -55,7 +55,7 @@ class DialogueSequence(private val player: Player, initialEntry: DialogueEntry) 
                     (start.distance(player.location) > 2) ||
                     (abs(start.yaw - player.location.yaw) > 45)
                 ) {
-                    end()
+                    DIALOGUE_END triggerFor player
                     cancel()
                 }
             }
