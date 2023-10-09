@@ -10,12 +10,16 @@ import me.gabber235.typewriter.interaction.startBlockingActionBar
 import me.gabber235.typewriter.interaction.startBlockingMessages
 import me.gabber235.typewriter.interaction.stopBlockingActionBar
 import me.gabber235.typewriter.interaction.stopBlockingMessages
+import me.gabber235.typewriter.plugin
+import me.gabber235.typewriter.utils.blackScreen
 import org.bukkit.NamespacedKey
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
 import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitRunnable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.math.abs
 
 class DialogueSequence(private val player: Player, initialEntry: DialogueEntry) : KoinComponent {
     private val messengerFinder: MessengerFinder by inject()
@@ -38,7 +42,24 @@ class DialogueSequence(private val player: Player, initialEntry: DialogueEntry) 
         player.playSpeakerSound(currentEntry.speakerEntry)
         player.startBlockingMessages()
         player.startBlockingActionBar()
+        player.blackScreen()
         tick()
+
+        val start = player.location.clone()
+        object : BukkitRunnable() {
+            override fun run() {
+                if (!isActive || !player.isOnline) cancel()
+
+                if (
+                    (start.world != player.world) ||
+                    (start.distance(player.location) > 2) ||
+                    (abs(start.yaw - player.location.yaw) > 45)
+                ) {
+                    end()
+                    cancel()
+                }
+            }
+        }.runTaskTimer(plugin, 0, 2)
     }
 
     fun tick() {

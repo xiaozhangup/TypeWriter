@@ -67,25 +67,7 @@ open class DialogueMessenger<DE : DialogueEntry>(val player: Player, val entry: 
     open var state: MessengerState = MessengerState.RUNNING
         protected set
 
-    open fun init() {
-        player.blackScreen()
-        val start = player.location.clone()
-        object : BukkitRunnable() {
-            override fun run() {
-                if (state != MessengerState.RUNNING) cancel()
-                if (!player.isOnline) cancel()
-
-                if (
-                    (start.world != player.world) ||
-                    (start.distance(player.location) > 2) ||
-                    (abs(start.yaw - player.location.yaw) > 45)
-                    ) {
-                    end()
-                    cancel()
-                }
-            }
-        }.runTaskTimer(plugin, 0, 2)
-    }
+    open fun init() {}
 
     open fun tick(cycle: Int) {}
 
