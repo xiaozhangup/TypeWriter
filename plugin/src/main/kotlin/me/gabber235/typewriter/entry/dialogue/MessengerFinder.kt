@@ -18,8 +18,10 @@ import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
+import org.bukkit.scheduler.BukkitRunnable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.math.abs
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.primaryConstructor
 
@@ -67,6 +69,23 @@ open class DialogueMessenger<DE : DialogueEntry>(val player: Player, val entry: 
 
     open fun init() {
         player.blackScreen()
+        object : BukkitRunnable() {
+            override fun run() {
+                println("Running...")
+                val start = player.location.clone()
+                if (state != MessengerState.RUNNING) cancel()
+                if (!player.isOnline) cancel()
+
+                if (
+                    start.world != player.world ||
+                    start.distance(player.location) > 2 ||
+                    abs(start.yaw - player.yaw) > 45
+                    ) {
+                    end()
+                    cancel()
+                }
+            }
+        }.runTaskTimer(plugin, 0, 2)
     }
 
     open fun tick(cycle: Int) {}
