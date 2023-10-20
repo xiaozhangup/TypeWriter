@@ -36,6 +36,7 @@ dependencies {
     // External dependencies
     compileOnly("org.geysermc.floodgate:api:2.2.0-SNAPSHOT")
     compileOnly("ink.ptms.adyeshach:all:2.0.0-snapshot-1")
+    compileOnly(fileTree("libs"))
 
     testImplementation(kotlin("test"))
 }
