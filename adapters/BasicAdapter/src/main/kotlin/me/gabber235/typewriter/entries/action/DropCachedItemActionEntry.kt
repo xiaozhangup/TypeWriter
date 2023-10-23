@@ -23,7 +23,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import java.util.*
 
-@Entry("drop_item", "Drop an item at location, or on player", Colors.RED, Icons.DROPBOX)
+@Entry("drop_cached_item", "Drop an cached item at location, or on player", Colors.RED, Icons.DROPBOX)
 /**
  * The `Drop Item Action` is an action that drops an item in the world.
  * This action provides you with the ability to drop an item with a specified Minecraft material, amount, display name, lore, and location.

@@ -17,7 +17,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
-@Entry("remove_item", "Remove an item from the players inventory", Colors.RED, Icons.WAND_SPARKLES)
+@Entry("remove_cached_item", "Remove an cached item from the players inventory", Colors.RED, Icons.WAND_SPARKLES)
 /**
  * The `Remove Item Action` is an action that removes an item from the player's inventory.
  * This action provides you with the ability to remove items from the player's inventory in response to specific events.

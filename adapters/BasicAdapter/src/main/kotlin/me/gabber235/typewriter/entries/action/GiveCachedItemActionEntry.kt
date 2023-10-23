@@ -18,7 +18,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
-@Entry("give_item", "Give an item to the player", Colors.RED, Icons.WAND_SPARKLES)
+@Entry("give_cached_item", "Give an cached item to the player", Colors.RED, Icons.WAND_SPARKLES)
 /**
  * The `Give Item Action` is an action that gives a player an item. This action provides you with the ability to give an item with a specified Minecraft material, amount, display name, and lore.
  *
